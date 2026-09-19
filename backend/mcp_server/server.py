@@ -1,7 +1,8 @@
-from mcp.server import MCPServer
+from mcp.server.fastmcp import FastMCP
 import requests
+import re
 
-live_data_server = MCPServer("Singapore Travel Agent Singapore Live Data Server")
+live_data_server = FastMCP("Singapore Travel Agent Singapore Live Data Server")
 
 SINGAPORE_LATITUDE = 1.3521
 SINGAPORE_LONGITUDE = 103.8198

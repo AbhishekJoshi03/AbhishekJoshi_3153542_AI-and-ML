@@ -96,14 +96,18 @@ singapore-travel-agent/
 │   │   ├── __init__.py
 │   │   └── preview_knowledge_answer.py
 │   ├── services/
+- Node.js 20.19+ (or Node.js 22.12+ for the current Vite toolchain)
 │   │   ├── __init__.py
 │   │   ├── knowledge_base.py
 │   │   ├── mcp_gateway.py
 │   │   └── travel_tools.py
 │   └── vector_index/
+- Relative dates such as “tomorrow” and “next week” are interpreted by the language model before it calls the weather tool; the tool itself expects explicit `YYYY-MM-DD` dates.
+- The knowledge search filters low-relevance matches and reports when the indexed content is insufficient.
 │       ├── index.faiss
 │       └── index.pkl
 ├── frontend/
+
 │   ├── index.html
 │   ├── package.json
 │   ├── vite.config.js
@@ -254,7 +258,7 @@ The assistant extracts source metadata from search results and stores it in the 
 ### Prerequisites
 
 - Python 3.10+
-- Node.js 18+
+- Node.js 20.19+ (or Node.js 22.12+ for the current Vite toolchain)
 - npm
 - A Google API key for Gemini embeddings and chat generation
 
@@ -306,6 +310,8 @@ A pre-generated index is already checked into the repo, but rebuilding it is the
 
 ```bash
 uvicorn backend.main:api --reload --host 0.0.0.0 --port 8000
+OR
+python -m uvicorn backend.main:api --reload
 ```
 
 The API exposes:

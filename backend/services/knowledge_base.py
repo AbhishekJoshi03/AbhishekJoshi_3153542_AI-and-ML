@@ -9,6 +9,7 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 VECTOR_INDEX_DIR = PROJECT_ROOT / "vector_index"
 EMBEDDING_MODEL_NAME = "models/gemini-embedding-001"
 RETRIEVED_CHUNK_COUNT = 4
+MIN_RELEVANCE_SCORE = 0.25
 
 load_dotenv()
 
@@ -39,7 +40,15 @@ def search_travel_knowledge_base(query: str) -> str:
     Do NOT use this tool for current weather or current exchange rates.
     """
 
-    matched_chunks = knowledge_retriever.invoke(query)
+    scored_chunks = knowledge_index.similarity_search_with_relevance_scores(
+        query,
+        k=RETRIEVED_CHUNK_COUNT,
+    )
+    matched_chunks = [
+        chunk
+        for chunk, score in scored_chunks
+        if score >= MIN_RELEVANCE_SCORE
+    ]
 
     if not matched_chunks:
         return (
