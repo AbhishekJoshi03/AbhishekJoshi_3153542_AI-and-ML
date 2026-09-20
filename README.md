@@ -1,5 +1,7 @@
 # Singapore Travel Agent
 
+[GitHub repository](https://github.com/AbhishekJoshi03/AbhishekJoshi_3153542_AI-and-ML)
+
 A Singapore travel planning assistant that combines a local knowledge base with live external tools via an MCP layer. The app uses a FastAPI backend, a tool-calling Gemini model, and a Vite + React frontend to answer questions about attractions, food, neighbourhoods, itineraries, weather, and INR-to-SGD conversions.
 
 ## Overview
