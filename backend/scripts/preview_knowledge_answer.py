@@ -10,7 +10,7 @@ from langchain_community.vectorstores import FAISS
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 VECTOR_INDEX_DIR = PROJECT_ROOT / "vector_index"
 EMBEDDING_MODEL_NAME = "models/gemini-embedding-001"
-CHAT_MODEL_NAME = "gemini-3.6-flash"
+CHAT_MODEL_NAME = "gemini-3.5-flash"
 RETRIEVED_CHUNK_COUNT = 4
 
 ANSWER_PROMPT_TEMPLATE = """

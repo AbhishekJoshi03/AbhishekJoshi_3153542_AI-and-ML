@@ -15,7 +15,7 @@ from backend.services.travel_tools import (
 
 load_dotenv()
 
-CHAT_MODEL_NAME = "gemini-3.6-flash"
+CHAT_MODEL_NAME = "gemini-3.5-flash"
 
 LIVE_DATA_TOOL_NAMES = {
     "get_current_weather",

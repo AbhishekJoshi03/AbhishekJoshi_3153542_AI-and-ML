@@ -1,4 +1,6 @@
 import asyncio
+import json
+import sys
 from pathlib import Path
 
 from mcp import ClientSession, StdioServerParameters
@@ -14,8 +16,9 @@ async def invoke_mcp_tool(tool_name: str, arguments: dict):
     """
 
     server_params = StdioServerParameters(
-        command="python",
-        args=[str(MCP_SERVER_SCRIPT)],
+        command=sys.executable,
+        args=["-u", str(MCP_SERVER_SCRIPT)],
+        cwd=str(PROJECT_ROOT),
     )
 
     async with stdio_client(server_params) as (read, write):
@@ -29,7 +32,34 @@ async def invoke_mcp_tool(tool_name: str, arguments: dict):
                 arguments
             )
 
-            return result
+            if getattr(result, "isError", False):
+                return {
+                    "error": f"MCP tool '{tool_name}' returned an error.",
+                    "details": _extract_text_content(result.content),
+                }
+
+            structured_content = getattr(result, "structuredContent", None)
+
+            if structured_content:
+                return structured_content
+
+            text_content = _extract_text_content(result.content)
+
+            if len(text_content) == 1:
+                try:
+                    return json.loads(text_content[0])
+                except json.JSONDecodeError:
+                    pass
+
+            return {"content": text_content}
+
+
+def _extract_text_content(content):
+    return [
+        item.text
+        for item in content
+        if getattr(item, "type", None) == "text"
+    ]
 
 
 def invoke_mcp_tool_sync(tool_name: str, arguments: dict):
